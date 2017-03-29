@@ -1,0 +1,92 @@
+ <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.web/js/1.4.2/respond.min.js"></script>
+<![endif]-->
+<link rel="stylesheet" href="./css/indexHeader.css">
+<link rel="stylesheet" type="text/css" href="css/sweet-alert.css">
+<div class="header-top">
+	<div class="logo">
+		<a href="index.html"><img src="img/logo.png.png"></a>
+	</div>
+	<div class="header-contain">
+		<span class="right"><a href="userinfo.html" id="userName"></a><a>|</a><a href="javascript:;" id="logout">退出</a></span>
+	</div>
+	<div class="nav">
+		<ul>
+			<li><a href="uploadpassword.html">修改密码</a></li> 
+			<li><a href="checkOldPhone.html">重绑号码</a></li>
+			<li><a href="showRequire.html">消息<span class="badge requires"></span></a></li>
+		</ul>
+	</div>
+	
+</div>
+<nav class="navbar navbar-inverse">
+  <div class="containers">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">首页</a>
+    </div>
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav  custom-menu">
+		<li><a href="createTime.html">创建时间轴</a></li>
+		<li><a href="worldWindow.html">世界之窗</a></li>
+		<li><a href="friendLists.html">好友列表</a></li>
+		<li><a href="addFriend.html">添加好友</a></li>
+		<li><a href="use.html">使用说明</a></li>
+		<li><a href="about.html">关于我们</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<script src="js/sweet-alert.js"></script>	
+<script src="./js/jquery.cookie.js"></script>
+<!--引入登录状态-->
+<script type="text/javascript" src="./js/loginstatus.js"></script>
+<script>
+	var re=/\/\w+.html$/;
+	console.log(window.location.href.match(re)[0]);
+	var navhref=window.location.href.match(re)[0];
+	switch(navhref){
+		case "/index.html":
+			$(".navbar-brand").addClass('active');
+			break;
+		case "/createTime.html":
+			$("#bs-example-navbar-collapse-1 a:eq(0)").addClass('active');
+			break;
+		case "/worldWindow.html":
+			$("#bs-example-navbar-collapse-1 a:eq(1)").addClass('active');
+			break;
+		case "/friendLists.html":
+			$("#bs-example-navbar-collapse-1 a:eq(2)").addClass('active');
+			break;
+		case "/addFriend.html":
+			$("#bs-example-navbar-collapse-1 a:eq(3)").addClass('active');
+			break;
+		case "/use.html":
+		    $("#bs-example-navbar-collapse-1 a:eq(4)").addClass('active');
+			break;
+		case "/about.html":
+		    $("#bs-example-navbar-collapse-1 a:eq(5)").addClass('active');
+			break;
+	}
+	share.post(share.base_url+"Home/Friend/getRequestFriendNotice",null,function (res){
+		if(typeof(res.response)=="object"){
+			$(".requires").html(res.response.length);
+		}
+		if(navhref=="/showRequire.html"){
+			console.log(res);
+			var myTemplate = Handlebars.compile($("#require-list").html());
+			console.log(myTemplate(res.response));
+			$('.require-friends').append(myTemplate(res));
+		}
+	},function (res){
+		console.log(res);
+	});
+</script>
+
+

@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>用户信息界面</title>
+	<meta name="viewport" content="width=device-width,initial-scale=1">
+	<meta http-equiv="x-ua-compatible" content="IE=edge,Chrome=1" />
+	<meta name="renderer" content="webkit">	
+	<link rel="stylesheet" href="./css/bootstrap.min.css">  
+	<link rel="shortcut icon" href="img/tnlogo.png"/>
+	<link rel="stylesheet" href="css/userinfo.css">
+	<link rel="stylesheet" type="text/css" href="css/sweet-alert.css">
+	<link rel="stylesheet" href="./css/indexHeader.css">
+	<script src="./js/jquery-1.12.3.js"></script>
+	<script src="./js/sharesrc.js"></script>
+	<script src="./js/bootstrap.min.js"></script>
+	<script src="./js/handlebars.min.js"></script>
+	<script src="js/sweet-alert.min.js"></script>
+	<script src="js/sweet-alert.js"></script>
+</head>
+<body>
+	<div id="header" class="clearfix"></div>
+	<div id="container" >
+		<div class="row">
+			<div class="col-sm-4">
+				<img src="img/tnlogo.png" alt="" class="header-pic">
+				<h3 class="nickname">账号</h3>
+				<p class="nickname"><strong id="nickname"></strong></p>
+				<button class="btn btn-success btn-pic" data-toggle="modal" data-target="#updateheadimg">修改头像</button>
+			</div>
+			<div class="col-sm-8">
+				<div class="my-info">
+					<form class="form-horizontal" role="form">
+					  <div class="form-group">
+					    <label for="firstname" class="col-sm-2 control-label">昵称</label>
+					    <div class="col-sm-7">
+					      <input type="text" id="see-name" name="user_nickname" class="form-control bgw"  disabled  >
+					    </div>
+					    <button class="btn btn-primary"  data-toggle="modal" data-target="#user_nickname" type="button">修改昵称</button>
+					  </div>
+					  <div class="form-group">
+					    <label for="lastname" class="col-sm-2 control-label">地址</label>
+					    <div class="col-sm-7">
+					      <input type="text"  id="see-address" name="user_address" class="form-control bgw"  disabled>
+					    </div>
+					    <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#user_address">修改地址</button>
+					  </div>
+					   <div class="form-group">
+					    <label for="lastname" class="col-sm-2 control-label">个性签名</label>
+					    <div class="col-sm-7">
+					      <textarea name="user_sign" id="see-sign" class="bgw" style="width:100%" rows="10" disabled ></textarea>
+					    </div>
+					    <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#user_sign">修改签名</button>
+					  </div>
+					  <div class="form-group">
+					  	<label for="lastname" class="col-sm-2 control-label">修改性别</label>
+					    <div class="col-sm-7">
+					      <div class="col-sm-4">
+					      	<input type="radio" name="user_sex" id="unknow" checked class="lg" disabled>未知
+					      </div>
+					      <div class="col-sm-3">
+					      	<input type="radio" name="user_sex" class="lg" id="male" disabled>男
+					      </div>
+					      <div class="col-sm-3">
+					      	<input type="radio" name="user_sex" class="lg" id="female" disabled>女
+					      </div>
+					    </div>
+					    <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#user_sex">修改性别</button>
+					  </div>
+					</form>
+				</div>
+				
+			</div>
+		</div>
+	</div>
+
+
+	<div class="modal fade" id="user_sex" tabindex="-1" role="dialog">
+		<div class="modal-dialog" role="document">
+		  <div class="modal-content">
+		    <div class="modal-header">
+		      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		      <h4 class="modal-title" >修改性别</h4>
+		    </div>
+		    <div class="modal-body">
+		     	<form role="form" class="form-horizontal">
+		     		<div class="form-group sex-choose">
+		     			<label class="col-sm-2 control-label">修改性别</label>
+					    <div class="col-sm-7">
+					      <div class="col-sm-3">
+					      	<input type="radio" name="user_sex" value="男">男
+					      </div>
+					      <div class="col-sm-3">
+					      	<input type="radio" name="user_sex" value="女">女
+					      </div>
+					    </div>
+		     		</div>
+		     	</form>
+		    </div>
+		    <div class="modal-footer">
+		      <button type="button" class="btn btn-default" data-dismiss="modal">退出</button>
+		      <button type="button" class="btn btn-primary" id="uploadsex">提交</button>
+		    </div>
+		  </div><!-- /.modal-content -->
+		</div><!-- /.modal-dialog -->
+	</div><!-- /.modal -->
+
+	<div class="modal fade" id="user_sign" tabindex="-1" role="dialog">
+		<div class="modal-dialog" role="document">
+		  <div class="modal-content">
+		    <div class="modal-header">
+		      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		      <h4 class="modal-title" >修改个性签名</h4>
+		    </div>
+		    <div class="modal-body">
+		     	<form role="form" class="form-horizontal">
+		     		<div class="form-group">
+		     			<label class="col-sm-2 control-label">个性签名</label>
+						<div class="col-sm-8">
+							<textarea id="new-sign" name="user_sign" class="bgw" style="width:100%" rows="10"></textarea>
+						</div>
+
+		     		</div>
+		     	</form>
+		    </div>
+		    <div class="modal-footer">
+		      <button type="button" class="btn btn-default" data-dismiss="modal">退出</button>
+		      <button type="button" class="btn btn-primary" id="uploadsign">提交</button>
+		    </div>
+		  </div><!-- /.modal-content -->
+		</div><!-- /.modal-dialog -->
+	</div><!-- /.modal -->
+
+	
+
+	<div class="modal fade" id="user_address" tabindex="-1" role="dialog">
+		<div class="modal-dialog" role="document">
+		  <div class="modal-content">
+		    <div class="modal-header">
+		      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		      <h4 class="modal-title" >修改地址</h4>
+		    </div>
+		    <div class="modal-body">
+		     	<form role="form" class="form-horizontal">
+		     		<div class="form-group">
+		     			<label class="col-sm-2 control-label">地址</label>
+						<div class="col-sm-8">
+							<input type="text" name="user_address" class="form-control" placeholder="请输入地址" id="new-add">
+						</div>
+		     		</div>
+		     	</form>
+		    </div>
+		    <div class="modal-footer">
+		      <button type="button" class="btn btn-default" data-dismiss="modal">退出</button>
+		      <button type="button" class="btn btn-primary" id="uploadaddress">提交</button>
+		    </div>
+		  </div><!-- /.modal-content -->
+		</div><!-- /.modal-dialog -->
+	</div><!-- /.modal -->
+
+
+	<div class="modal fade" id="user_nickname" tabindex="-1" role="dialog">
+		<div class="modal-dialog" role="document">
+		  <div class="modal-content">
+		    <div class="modal-header">
+		      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		      <h4 class="modal-title" id="changeNick">修改昵称</h4>
+		    </div>
+		    <div class="modal-body">
+		     	<form role="form" class="form-horizontal">
+		     		<div class="form-group">
+		     			<label class="col-sm-2 control-label">昵称</label>
+						<div class="col-sm-8">
+							<input type="text" name="user_nickname" id="new-nick" class="form-control" placeholder="请输入昵称">
+						</div>
+
+		     		</div>
+		     	</form>
+		    </div>
+		    <div class="modal-footer">
+		      <button type="button" class="btn btn-default" data-dismiss="modal">退出</button>
+		      <button type="button" class="btn btn-primary" id="uploadnick">提交</button>
+		    </div>
+		  </div><!-- /.modal-content -->
+		</div><!-- /.modal-dialog -->
+	</div><!-- /.modal -->
+
+	 <div class="modal fade" id="updateheadimg" tabindex="-1" role="dialog">
+		<div class="modal-dialog" role="document">
+		  <div class="modal-content">
+		    <div class="modal-header">
+		      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		      <h4 class="modal-title" id="myModalLabel">上传修改头像</h4>
+		    </div>
+		    <div class="modal-body">
+		      <form name="uploadForm" id="uploadForm" method="post" enctype="multipart/form-data">
+		        <img src="" id="header-pic">
+		        <input type="file" id="file-upload" class="btn" name="file-load" />
+		        <span class="warming"></span>
+		      </form>
+		    </div>
+		    <div class="modal-footer">
+		      <button type="button" class="btn btn-default" data-dismiss="modal">退出</button>
+		      <button type="button" class="btn btn-primary" id="upload-img">上传/修改</button>
+		    </div>
+		  </div><!-- /.modal-content -->
+		</div><!-- /.modal-dialog -->
+	</div><!-- /.modal -->
+	<div id="footer" class="clearfix"></div>
+</body>
+<script src="./js/jquery.cookie.min.js"></script>
+<script type="text/javascript">
+	$(function (){
+		var header_url;
+		$("#header").load("indexHeader.html");
+		$("#footer").load("footer.html");
+		$("#nickname").html($.cookie("user_phone"));
+		if($.cookie("user_faceurl")!=="null"){
+			$(".header-pic").attr("src",share.base_url+$.cookie("user_faceurl"));
+			header_url=share.base_url+$.cookie("user_faceurl");
+		}else{
+			header_url="img/tnlogo.png";
+		}
+		$("#see-name").attr("value",($.cookie("user_nickname")));
+		if($.cookie("user_address")!=="null"){
+			$("#see-address").attr("value",$.cookie("user_address"));
+		}else{
+			$("#see-address").attr("value","");
+		}
+		if($.cookie("user_sign")!=="null"&&$.cookie("user_sign")){
+			$("#see-sign").text($.cookie("user_sign"));
+		}else{
+			$("#see-sign").text("");
+		}
+		if($.cookie("user_sex")==="null"){
+			$("#unknow").attr("checked",true);
+		}else if($.cookie("user_sex")==="男"){
+			$("#male").attr("checked",true);
+		}else{
+			$("#female").attr("checked",true);
+		}
+		$(".btn-pic").click(function(event) {
+			$("#header-pic").attr("src",header_url);
+			$("#upload-img").click(function(event) {
+				var data=new FormData($("#uploadForm")[0]);
+				form.post(share.base_url+"Home/User/uploadAvatar",data,function (res){
+					console.log(res);
+					$.cookie("user_faceurl",res.response,{
+						path:"/"
+					});
+					swal({
+		                title: "提交成功!",
+		                text: "",
+		                type: "success",
+		                closeOnConfirm: false
+		            },function (){
+		            	window.location.href="userinfo.html";
+		            });
+				},function (res){
+					$(".warming").html(res.response);
+				});
+			});
+		});
+		$("#uploadnick").click(function(event) {
+			/* Act on the event */
+			var data={
+				"user_nickname":$("#new-nick").val(),
+				"fieldType":"1"
+			};
+			share.post(share.base_url+"Home/User/updateUserInfo",data,function (res){
+				swal({
+	                title: "修改成功!",
+	                text: "",
+	                type: "success",
+	                closeOnConfirm: false
+		            },function (){
+		            	$.cookie("user_nickname",data.user_nickname,{
+		                    path: "/"
+		                });
+		            	window.location.href="userinfo.html";
+		            });
+			},function (res){
+				alert(res.response);
+			});
+		});
+
+		$("#uploadaddress").click(function(event) {
+			var data={
+				"user_address":$("#new-add").val(),
+				"fieldType":"3"
+			};
+			share.post(share.base_url+"Home/User/updateUserInfo",data,function (res){
+				swal({
+	                title: "修改成功!",
+	                text: "",
+	                type: "success",
+	                closeOnConfirm: false
+		            },function (){
+		            	$.cookie("user_address",data.user_address,{
+		                    path: "/"
+		                });
+		            	window.location.href="userinfo.html";
+		            });
+			},function (res){
+				alert(res.response);
+			});
+		});
+
+		$("#uploadsign").click(function(event) {
+			var data={
+				"user_sign":$("#new-sign").val(),
+				"fieldType":"4"
+			};
+			
+			share.post(share.base_url+"Home/User/updateUserInfo",data,function (res){
+				console.log(res);
+				swal({
+	                title: "修改成功!",
+	                text: "",
+	                type: "success",
+	                closeOnConfirm: false
+		            },function (){
+		            	$.cookie("user_sign",data.user_sign,{
+		                    path: "/"
+		                });
+		            	window.location.href="userinfo.html";
+		            });
+			},function (res){
+				alert(res.response);
+			});
+		});
+
+		$("#uploadsex").click(function(event) {
+			if(!$(".sex-choose input:checked").val()){
+				swal("请选择性别","","error");
+			}
+			var data={
+				"user_sex":$(".sex-choose input:checked").val(),
+				"fieldType":"2"
+			};
+			share.post(share.base_url+"Home/User/updateUserInfo",data,function (res){
+				console.log(res);
+				swal({
+	                title: "修改成功!",
+	                text: "",
+	                type: "success",
+	                closeOnConfirm: false
+		            },function (){
+		            	$.cookie("user_sex",data.user_sex,{
+		                    path: "/"
+		                });
+		            	window.location.href="userinfo.html";
+		            });
+			},function (res){
+				alert(res.response);
+			});
+		});
+	});
+</script>
+</html>

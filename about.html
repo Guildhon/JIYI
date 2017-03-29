@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>关于我们</title>
+	<meta name="viewport" content="width=device-width,initial-scale=1">
+	<meta http-equiv="x-ua-compatible" content="IE=edge,Chrome=1" />
+	<meta name="renderer" content="webkit">
+	<link rel="shortcut icon" href="img/tnlogo.png">
+	<link rel="stylesheet" href="./css/bootstrap.min.css">
+	<script src="./js/jquery-1.12.3.js"></script>
+	<script src="./js/bootstrap.min.js"></script>
+	<script src="./js/sharesrc.js"></script>
+	<link rel="stylesheet" href="./css/indexHeader.css">
+	<style type="text/css">
+		#content{
+			width:80%;
+			margin:0 auto;
+			border:1px solid #ccc;
+			border-radius: 5px;
+			padding-bottom: 50px;
+			background: url(img/iphone.png) no-repeat 50% 96%,url(img/iphone2.png) no-repeat 80% 80%;
+			background-size: 20%;
+		}
+		.clearfix:before,
+		.clearfix:after{
+			content:"";
+			display:table;
+		}
+		.JY h2{
+			font-size: 53px;
+			font-weight: bold;
+			margin-left:30px;
+			padding-top: 20px;
+		}
+		.JY p.intro{
+			text-indent: 2em;
+			font-size: 1.2em;
+			line-height:2.0em;
+			padding: 0 2%;
+		}
+		div.download{
+			display: block;
+			margin-left:3%;
+			width:50%;
+		}
+		.from-people{
+			text-indent:4em;
+			line-height:3em;
+			font-size:1.4em;
+			font-weight: bold;
+			width:50%;
+		}
+		.from-title{
+			color:red;
+			margin-top:40px;
+		}
+		@media only screen and (max-width:710px){
+			#content{
+				background: none;
+			}
+			div.download{
+			display: block;
+			margin-left:auto;
+			width:50%;
+			}
+			.from-people{
+			font-size: 14px;
+			width:100%;
+			}
+		}
+	</style>
+</head>
+<body>
+	<div id="header"></div>
+	<div id="content" class="clearfix">
+		<div class="row-fluid">
+	        <div class="row ">
+	            <div class="col-xs-12" style="border-color: #fff;">
+	                <div class="meet ">
+	                    <div class="JY">
+	                        <h2>迹忆</h2>
+	                        <p class="intro"><strong>迹忆</strong>是一款解决人们无法及时记录自己经历过的事情或某些回忆或生活点滴的痛点，迹忆满足了人们的不同需求，例如交互需求等，况且好的东西应该与别人一起分享，一起回味，迹忆的时间轴分享就能满足用户的产品。迹忆，让珍贵的记忆不再遗忘。</p>
+	                        <p class="intro">目前拥有<strong>安卓和web版本</strong>，后期将开发并且提供更加丰富的功能，并且着手iOS版本的开发。</p>
+	                        <p class="intro">系统简洁的功能模块，新手快速上路，用户模块分Android端和Web端，满足用户不同需求；用户可以添加好友，彼此之间还可以互相分享、评价自己的时间轴，满足了用户的交互需求，使得时间轴不再枯燥无味。</p>
+	                    </div>
+	                    <div class="download"><a class="btn btn-primary btn-lg" href="#">下载应用</a></div>
+	                    <div class="from-people from-title">开发人员</div>
+	                    <div class="from-people">营销策划师：赖林坤</div>
+	                    <div class="from-people">UI设计师：全日旺</div>
+	                    <div class="from-people">web开发工程师:黄桂鸿，徐茂勇</div>
+	                    <div class="from-people">移动开发工程师：黄旭威</div>
+	                </div>
+	            </div>
+	        </div>
+	    </div>
+    </div>
+	<div id="footer"></div>
+</body>
+</html>
+<script>
+	$(function (){
+		$("#header").load("indexHeader.html");
+		$("#footer").load("footer.html");
+		
+	});
+</script>

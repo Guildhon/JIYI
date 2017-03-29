@@ -1,0 +1,50 @@
+ <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.web/js/1.4.2/respond.min.js"></script>
+<![endif]-->
+<style type="text/css">
+	.header-top{
+		width:100%;
+		color:red;
+		padding-bottom:10px;
+	}
+	.header-top .header-left{
+		width:50%;
+		height:56px;	
+		float:left;
+	}
+	.header-left .logo {
+		margin-left:10%;
+	}
+	.header-contain{
+		width:50%;
+		float:right;
+		line-height:56px;
+		text-align: right;
+	}
+	.header-contain .right{
+		margin-right: 10%;
+	}
+	.header-contain a{
+		color:#74B0DA;
+		text-decoration: none;
+		font-size:1.2em;
+	}
+	@media only screen and (max-width:480px){
+		.header-top .header-left{
+			width:35%;
+		}
+		.header-contain{
+			width:65%;
+		}
+	}
+	.header-contain a:hover{
+		color:red;
+	}
+</style>
+<div class="header-top clearfix">
+	<div class="header-left"><a href="#" class="logo"><img src="./img/logo.png.png"></a></div>
+	<div class="header-contain">
+		<span class="right"><a href="register.html">免费注册</a><a>|</a><a href="javascript:alert('请先登录');">下载APP</a></span>
+	</div>
+</div>

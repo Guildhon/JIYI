@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>迹忆--会员登陆</title>
+	<meta http-equiv="x-ua-compatible" content="IE=edge,Chrome=1" />
+	<meta name="viewport" content="width=device-width,initial-scale=1">
+	<meta name="renderer" content="webkit" />
+	<link rel="stylesheet" type="text/css" href="css/sweet-alert.css">
+	<link rel="shortcut icon" href="img/tnlogo.png">
+	<script src="js/sweet-alert.min.js"></script>
+	<style>
+		body{padding:0px;margin:0px;}
+		a{text-decoration:none;}
+		img{border:0;}
+		.clearfix:before,
+		.clearfix:after{
+			content:"";
+			display:table;
+		}
+		.clearfix:after{
+			clear:both;
+		}
+		body{
+			position: relative;
+			padding-bottom: 40px;
+		}
+		#main-body{
+			padding-bottom: 140px;
+		}
+		#main-body .body .content{
+			width:100%;
+			margin-top:0;
+			padding-top:10px;
+			padding-bottom: 100px;
+			background:url(img/3.jpg);
+			background-size: cover;
+		} 
+		.body .content .loginWindow{
+			width:50%;
+			margin:auto;	
+			background:#ffffff;
+			margin:0 auto;
+			opacity: 0.69;
+			filter:alpha(opacity:69);
+			padding-bottom: 30px;
+			border-radius: 10px;
+		}
+		.body .content .headname{
+			font-size: 35px;
+			text-align:center;
+			font-weight:bold;
+			border-bottom:2px dotted;
+			height:50px;
+			line-height:50px;
+		}
+		@media only screen and (max-width:480px){
+			.body .content .loginWindow {
+				width:80%;
+			}
+			..body .content .headname{
+				font-size:16px;
+			}
+		}
+		.content .loginWindow .i_wrapper{
+			margin:auto;
+			height:40px;
+			width:74%;
+			margin-bottom:20px;
+		 	border:1px solid black;
+		 	border-radius:5px;
+		 	padding-left:6%
+		}
+		.content .loginWindow .i_wrapper:hover{
+			border:1px solid red;
+		}
+		.content .loginWindow .i_wr1{
+		 	background: url(./img/form_sprites.jpg) no-repeat 0 5px;
+		 }
+		.content .loginWindow .i_wr2{
+		 	background: url(./img/form_sprites.jpg) no-repeat 0 -65px;
+		 }
+		.body .content .inputbox{
+			height:38px;
+			font-size:15px;
+			outline: none;
+			width:94%;
+			line-height:38px;
+			border:none;
+		}
+		@media only screen and (max-width:800px){
+			.body .content .inputbox{
+				width:80%;
+				margin-left: 10%;
+			}
+		}
+		.body .content .function{
+			width:70%;
+			font-size:20px;
+			margin:auto;
+			margin-top:20px;
+		}
+		.body .content .function a{
+			color:blue;
+			float:right;			
+		}
+		.body .content .function a:hover{
+			color:red;
+		}
+		@media only screen and (max-width:480px){
+		.content .loginWindow .i_wrapper{
+			height:46px;
+		}
+		.body .content .function a{
+			display: block;
+			float: none;
+			margin-top:10px;
+		}
+		}
+		.body .content .loginWindow #submit{
+			width:50%;
+			height:40px;
+			background: #39B3D7;
+			font-size:25px;
+			line-height:25px;
+			color:white;
+			cursor:pointer;
+			margin:30px auto;
+			display:block;
+			border-radius: 5px;
+		}
+		#footer{
+			position: absolute;
+			bottom:0;
+			padding-top:30px;
+			width:100%;
+		}
+	</style>
+	<script src="./js/jquery-1.12.3.js"></script>
+</head>
+<body>
+	<div id="main-body">
+		<div id="header">
+			<!--利用ajax插入header.html的内容-->
+		</div>
+		<div class="body">
+			<div class="content">
+				<div id="container">
+					<div class="loginWindow">
+	                    <p class="headname">会员的一次登录</p>
+	                    	<form>
+		                    	<div class="i_wrapper i_wr1">
+		                    		<input type="text"  placeholder="请输入手机账号" name="user_phone"class="inputbox" class="user_phone" id="user_phone" >
+		                    	</div>
+		                    	<div class="i_wrapper i_wr2">
+									<input type="password" placeholder="请输入密码" name="password" class="inputbox" class="password" id="password" />
+								</div>
+								<div class="function">
+									<input type="checkbox" name="memorylogin" value="1">记住登陆 
+									<a href="forgetpassword.html">忘记密码?</a>
+								</div>
+	                    	</form>
+	                    	<button id="submit">登  陆</button>
+                	</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="footer" class="clearfix">
+		<!--利用ajax插入footer.html的内容-->
+	</div>
+</body>
+</html>
+<script src="./js/sharesrc.js"></script>
+<script src="./js/jquery.cookie.min.js"></script>
+<script type="text/javascript">
+window.onload=function ()
+{
+	$('#header').load("header.html");
+	$('#footer').load("footer.html");
+
+	$("#submit").click(function(){ 
+	var user_phone=$('#user_phone').val();
+	var user_password=$('#password').val();
+	if (user_phone === '' || user_password === ''||!(/^1[34578]\d{9}$/.test(user_phone))) {
+        swal("登陆信息不全或者输入有误", "", "warning");
+        return false;
+	}
+	share.post("http://119.29.251.126/JIYI/Home/User/userLogin",{
+		user_phone:user_phone,
+		user_password:user_password
+		},
+		function(data){
+			if(data.response.user_nickname)
+			{
+
+				$.cookie("user_nickname",data.response.user_nickname,{
+                    path: "/"
+                });
+			}else{
+				$.cookie("user_nickname","null",{
+                    path: "/"
+                });
+			}
+			if(data.response.user_phone)
+			{
+
+				$.cookie("user_phone",data.response.user_phone,{
+                    path: "/"
+                });
+			}else{
+				$.cookie("user_phone","null",{
+                    path: "/"
+                });
+			}
+			if(data.response.user_sex)
+			{
+
+				$.cookie("user_sex",data.response.user_sex,{
+                    path: "/"
+                });
+			}else{
+				$.cookie("user_sex","null",{
+                    path: "/"
+                });
+			}
+			if(data.response.user_sign)
+			{
+
+				$.cookie("user_sign",data.response.user_sign,{
+                    path: "/"
+                });
+			}else{
+				$.cookie("user_sign","null",{
+                    path: "/"
+                });
+			}
+			if(!data.response.user_faceurl){
+				$.cookie("user_faceurl","null",{
+				path:"/"
+				});
+			}else{
+				$.cookie("user_faceurl",data.response.user_faceurl,{
+					path:"/"
+				});
+			}
+			if(!data.response.user_address){
+				$.cookie("user_address","null",{
+				path:"/"
+				});
+			}else{
+				$.cookie("user_address",data.response.user_address,{
+					path:"/"
+				});
+			}
+			swal({
+            title: "登录成功!",
+            text: "",
+            type: "success",
+            confirmButtonText: "进入",
+            closeOnConfirm: false
+	        },function (){
+	        	window.location.href= "./index.html";
+
+	        });
+		},	
+		function(res){     
+		   	
+		    
+		    swal('账号或密码出错',"","error");
+
+		});
+	});
+
+};
+</script>

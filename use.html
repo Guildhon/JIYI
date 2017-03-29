@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>使用说明</title>
+	<meta name="viewport" content="width=device-width,initial-scale=1">
+	<meta http-equiv="x-ua-compatible" content="IE=edge" />
+	<script src="./js/jquery-1.12.3.js"></script>
+	<script src="./js/sharesrc.js"></script>
+	<link rel="stylesheet" href="./css/bootstrap.min.css">
+	<script src="./js/bootstrap.min.js"></script>
+	<link rel="shortcut icon" href="img/tnlogo.png">
+	<link rel="stylesheet" href="./css/indexHeader.css">
+	<style type="text/css">
+		#content{
+			width:80%;
+			margin:0 auto;
+			border:1px solid #ccc;
+			border-radius: 5px;
+			padding-bottom: 50px;
+		}
+		.clearfix:before,
+		.clearfix:after{
+			content:"";
+			display:table;
+		}
+		.JY h2{
+			font-size: 53px;
+			font-weight: bold;
+			margin-left:30px;
+			padding-top: 20px;
+		}
+		.JY p.intro{
+			text-indent: 2em;
+			font-size: 1.2em;
+			line-height:2.0em;
+			padding: 0 2%;
+		}
+		.from-people{
+			text-indent:4em;
+			line-height:3em;
+			font-size:1.4em;
+			font-weight: bold;
+			width:50%;
+		}
+		.from-title{
+			color:red;
+			margin-top:40px;
+		}
+		.teach1{
+			width:80%;
+			margin:auto;
+			
+			margin-left: 10%;
+		}
+	</style>
+</head>
+<body>
+	<div id="header"></div>
+	<div id="content" class="clearfix">
+		<div class="row-fluid">
+        <div class="row ">
+            <div class="col-xs-12" style="border-color: #fff;">
+                <div class="meet ">
+                    <div class="JY">
+                        <h2>迹忆项目使用说明</h2>
+                        <p class="intro">用户可以以图文并茂的形式编写自己的时间轴，记录个人生活的每时每刻，在时间轴的展示界面中，用户除了可以查看时间轴内容，还可以增加、删除或修改时间轴，界面中还可以创建多个时间轴；在Android端和Web端用户可以展示不同储存形式的时间轴，用户之间可以互加好友，可以向对方隐藏或分享自己的时间轴，或评价各自的时间轴，满足用户交互设计；用户登录、注册界面，时间轴列表主面板，时间轴展示面板，用户信息界面以及好友列表六大部分的功能也各具特色，例如在时间轴列表主面板的搜索栏可以用于搜索时间轴，方便用户快速查找；用户信息界面用于展示用户信息的布局，“查看TA的时间轴”按钮（如果对方不是好友，该按钮变为“添加好友”），顶部右上角一个用户小图标，点开用于对该用户的管理（如设置注释等）；点击分享图标，获得时间轴的Web版URL，可以将其分享到微信等平台；对于好友列表，用来展示好友信息及对好友的一些操作等。</p>
+                        <p class="intro">时间轴可添加图片，图文并茂，方便用户记录；用户模块分Android端和Web端，在用户模块的Android端，用户没登录时可以展示储存在本地的时间轴，已经登录的可以展示储存在服务器上的时间轴，而Web端就需要用户登录才能使用，这样设计使得用户不用登陆就可即时编写自己的时间轴，方便后期登陆同步；时间轴展示面板的更新与后台保持同步，保证数据的同步性与准确性；用户可以添加好友，彼此之间还可以互相分享、评价自己的时间轴，这个设计满足了用户的交互需求，使得时间轴不再枯燥无味。</p>
+                        <h3 style="text-align:center;color:red">一切的开始,创建时间轴吧</h3>
+                        <img src="img/banner.png" alt="" class="teach1">
+                    </div>
+					
+                </div>	
+            </div>
+        </div>
+    </div>
+</div>
+
+	</div>
+	<div id="footer"></div>
+	
+</body>
+</html>
+<script>
+	$(function (){
+		$("#header").load("indexHeader.html");
+		$("#footer").load("footer.html");
+		
+	})
+</script>

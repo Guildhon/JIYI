@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>迹忆主页</title>
+	<meta name="viewport" content="width=device-width,initial-scale=1">
+	<meta http-equiv="x-ua-compatible" content="IE=edge,Chrome=1" />
+	<meta name="renderer" content="webkit">
+	<link rel="stylesheet" href="css/index.css">
+	<link rel="shortcut icon" href="img/tnlogo.png">
+	<link rel="stylesheet" href="./css/bootstrap.min.css"> 
+	<script src="./js/jquery-1.12.3.js"></script>
+	<script src="./js/sharesrc.js"></script> 
+	<script src="./js/bootstrap.min.js"></script>
+	<script src="./js/handlebars.min.js"></script>
+	<link rel="stylesheet" href="./css/indexHeader.css">
+</head>
+<body>
+	<div id="header"></div>
+	<div id="container" class="clearfix">
+		<div class="my-info">
+			<h3 class="" style="font-family:微软雅黑">我的信息 ：</h3>	
+			<div class="user-info">
+			<ul>
+				<li>
+					<span class="glyphicon glyphicon-user"></span> 昵称 :
+					<span class="username"></span>
+				</li>
+				<li>
+					<span class="glyphicon glyphicon-phone"></span> 电话 :
+					<span class="user_phone"></span>
+				</li>
+				<li>
+					<span class="glyphicon glyphicon-hand-right"></span> 性别 :
+					<span class="sex"></span>
+				</li>
+				<li>
+					<span class="glyphicon glyphicon-heart"></span> 地址 :
+					<span class="user_address"></span>
+				</li>
+				<li>
+					<span class="glyphicon glyphicon-pencil"></span> 个性签名 :
+					<span class="user_sign"></span>
+				</li>
+				<li>
+					<span class="glyphicon glyphicon-send"></span> 时间轴数量 :
+					<span class="timelister"></span>
+				</li>
+			</ul>
+			</div>
+		</div>
+		<div class="my-timeaxis">
+			<h3 style="font-family:微软雅黑">我的时间轴 :</h3>
+			
+		</div>
+	</div>
+	<div id="footer"></div>
+</body>
+</html>
+<script id="timeLister" type="text/x-handlebars-template">
+	{{#each response}}
+	<div class="timeaxis">	
+		<ul>
+			<li>
+				<a href="./Time.html?timeline_id={{timeline_id}}" class="time-title">{{timeline_title}}</a>
+			</li>
+			<li>创建时间 :
+				<span class="create-time">{{timeline_ctime}}</span>
+			</li>
+			<li>文字简介 :
+				<span>{{timeline_intr}}</span>
+			</li>
+		</ul>
+		<div class="time-cover">
+			<img src="http://119.29.251.126/JIYI/{{timeline_pictureurl}}" alt="封面图" width="80%" title="封面图">
+		</div>
+		<div class="time-footer">
+			<a href="jacascript:;" class="delete btn btn-success" id="{{timeline_id}}">删除</a> |
+			<a href="jacascript:;" class="upload btn btn-info" id="{{timeline_id}}">更新</a>
+		</div>
+		</div>
+	</div>
+	{{/each}}
+</script>
+<script src="./js/jquery.cookie.min.js"></script>
+<script>
+	$(function (){
+		$("#header").load("indexHeader.html");
+		$("#footer").load("footer.html");
+		var userName = $.cookie("user_nickname");
+		if(userName) {
+			$(".username").html(userName);
+		}
+		var user_phone = $.cookie("user_phone");
+		if(user_phone) {
+			$(".user_phone").html(user_phone);
+		}
+		var user_sex = $.cookie("user_sex");
+		if(user_sex!=="null") {
+			$(".sex").html(user_sex);
+		}else{
+			$(".sex").html("未完善信息");
+		}
+		var user_sign = $.cookie("user_sign");
+		if(user_sign!=="null") {
+			$(".user_sign").html(user_sign);
+		}else{
+			$(".user_sign").html("未完善信息");
+		}
+		if($.cookie("user_address")!="null"){
+			$(".user_address").html($.cookie("user_address"));
+		}else{
+			$(".user_address").html("未完善信息");
+		}
+		$('.timelister').html("0");
+		share.post('http://119.29.251.126/JIYI/Home/TimeLineInfo/TimeLineList',null,function (res){
+			console.log(res);
+			var myTemplate = Handlebars.compile($("#timeLister").html());
+			$('.my-timeaxis').append(myTemplate(res));
+			if($('.timeaxis').length>0){
+				$('.timelister').html($('.timeaxis').length);
+			}
+			//节点加载后才能取到
+			$(".delete").click(function(event) {
+				/* Act on the event */
+				var choose = window.confirm("你确定删除此时间轴吗？不可恢复哦！") ;
+				if(!choose){
+					return;
+				}
+				var _this=$(this);
+				var data={
+					"timeline_id" : $(this).attr("id")
+				};
+				share.post(share.base_url+"/Home/TimeLineInfo/deleteTimeLine",data,function (res){
+					alert("删除成功");
+					_this.parent().parent().remove();
+					$('.timelister').html($('.timeaxis').length);
+
+				},function (res){
+			   		alert("发生错误了：" + res.msg);  
+				});
+
+			});
+
+
+
+		},function (jqXHR){
+			   	//alert("发生错误了：" + jqXHR.status);  
+			   	$(".my-timeaxis").append("<div style='text-align:center;height:500px;line-height:200px'><strong style='font-size:2.2em;color:#5CB85C;'>温馨提醒：</strong><span style='color:red;vertical-align: top;'>没有时间轴，请先创建</span></div>"); 
+		});
+	});
+
+</script>

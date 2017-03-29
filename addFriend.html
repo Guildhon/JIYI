@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>添加好友界面</title>
+	<meta name="viewport" content="width=device-width,initial-scale=1">
+	<meta http-equiv="x-ua-compatible" content="IE=edge,Chrome=1" />
+	<meta name="renderer" content="webkit">
+	<link rel="stylesheet" href="./css/bootstrap.min.css">  
+	<link rel="shortcut icon" href="img/tnlogo.png"/>
+	<link rel="stylesheet" href="css/userinfo.css">
+	<link rel="stylesheet" type="text/css" href="css/sweet-alert.css">
+	<link rel="stylesheet" href="./css/indexHeader.css">
+	<script src="./js/jquery-1.12.3.js"></script>
+	<script src="./js/sharesrc.js"></script>
+	<script src="js/sweet-alert.min.js"></script>
+	<script src="js/sweet-alert.js"></script>
+	<script src="./js/bootstrap.min.js"></script>
+	<script src="./js/handlebars.min.js"></script>
+</head>
+<body>
+	<div id="header" class="clearfix"></div>
+	<div id="container" >
+		<div class="row">
+			<div class="col-sm-4">
+				<img src="img/tnlogo.png" alt="" class="header-pic">
+				<h3 class="nickname">昵称</h3>
+				<p class="nickname"><strong id="nickname"></strong></p>
+				<button class="btn btn-success btn-pic" data-toggle="modal" data-target="#updateheadimg">修改头像</button>
+			</div>
+			<div class="col-sm-8">
+				<div class="find-friends">
+					<h3 class="text-danger find-tit">添加好友</h3>
+					<form class="form-horizontal" role="form">
+					  <div class="form-group">
+					    <label for="user_phone" class="col-sm-3 control-label">请输入手机号码</label>
+					    <div class="col-sm-7">
+					      <input type="text" class="form-control" name="user_phone" id="user_phone" placeholder="输入手机号码">
+					    </div>
+					  </div>
+					</form>
+					<button class="btn btn-primary col-sm-offset-9 find">查找</button>
+				</div>
+				<div class="show-info">
+					<div class="col-sm-4 friend-header">
+						<!--img src="img/tnlogo.png" alt="" class="friend-pic"-->
+					</div>
+					<div class="col-sm-8 friend-con">
+						<ul class="list-info">
+							<li></li>
+							<li><!--span class="about">电话:</span><h3 class="friendname">123</h3--></li>
+							<li><!--span class="about">性别:</span><h3 class="friendname">123</h3--></li>
+							<li><!--span class="about">个性签名:</span><h3 class="friendname">123</h3--></li>
+							<li><!--span class="about">家庭地址:</span><h3 class="friendname">123</h3--></li>
+							<li>
+								
+							</li>
+							<li><input type="hidden" value="" name="friend_id" class="friend_id"></li>
+						</ul>					
+						
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	  <div class="modal fade" id="updateheadimg" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+	<div class="modal-dialog" role="document">
+	  <div class="modal-content">
+	    <div class="modal-header">
+	      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	      <h4 class="modal-title" id="myModalLabel">上传修改头像</h4>
+	    </div>
+	    <div class="modal-body">
+	      <form name="uploadForm" id="uploadForm" method="post" enctype="multipart/form-data">
+	        <img src="" id="header-pic">
+	        <input type="file" id="file-upload" class="btn" name="file-load" />
+	        <span class="warming"></span>
+	      </form>
+	    </div>
+	    <div class="modal-footer">
+	      <button type="button" class="btn btn-default" data-dismiss="modal">退出</button>
+	      <button type="button" class="btn btn-primary" id="upload-img">上传/修改</button>
+	    </div>
+	  </div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+	</div><!-- /.modal -->
+	<div id="footer" class="clearfix"></div>
+</body>
+<script src="./js/jquery.cookie.min.js"></script>
+<script type="text/javascript">
+	$(function (){
+		var header_url;
+		$("#header").load("indexHeader.html");
+		$("#footer").load("footer.html");
+		$("#nickname").html($.cookie("user_nickname"));
+		if($.cookie("user_faceurl")!=="null"){
+			$(".header-pic").attr("src",share.base_url+$.cookie("user_faceurl"));
+			header_url=share.base_url+$.cookie("user_faceurl");
+		}else{
+			header_url="img/tnlogo.png";
+		}
+		$(".find").click(function(event) {
+			/* Act on the event */
+			if(!$("#user_phone").val()){
+				alert("请填写号码");
+				return;
+			}
+			var data = {
+				"user_phone":$("#user_phone").val()
+			};
+			share.post(share.base_url+"Home/User/searchUser",data,function (data){
+				if(data.response==="找不到该用户"){
+					swal(data.response,"","error");
+					return;
+				}
+				if(!data.response.user_faceurl){
+					$(".friend-header").html('<img src="img/tnlogo.png" class="friend-pic">');
+				}else{
+					$(".friend-header").html('<img src="'+share.base_url+data.response.user_faceurl+'" class="friend-pic">');
+				}
+				for(var i in data.response){
+					if(data.response[i]===null){
+						data.response[i]="未填写";
+					}
+				}
+				$(".friend_id").attr("value",data.response.user_id);
+				$(".list-info li:eq(0)").html('<span class="about">昵称:</span><h3 class="friendname">'+data.response.user_nickname+'</h3>');
+				$(".list-info li:eq(1)").html('<span class="about">电话:</span><h3 class="friendname">'+data.response.user_phone+'</h3>');
+				$(".list-info li:eq(2)").html('<span class="about">性别:</span><h3 class="friendname">'+data.response.user_sex+'</h3>');
+				$(".list-info li:eq(3)").html('<span class="about">个性签名:</span><h3 class="friendname">'+data.response.user_sign+'</h3>');
+				$(".list-info li:eq(4)").html('<span class="about">家庭地址:</span><h3 class="friendname">'+data.response.user_address+'</h3>');
+				$(".list-info li:eq(5)").html("");
+				$(".btn-add").remove();
+				if($(".btn-add").length<=0&&data.response.user_nickname!==$.cookie("user_nickname")){
+					$(".list-info li:eq(5)").html('<span class="about">附带信息:</span><textarea class="applay_content" rows="4"></textarea>');
+					$('<button class="btn btn-warning btn-add">添加好友</button>').appendTo(".friend-con");
+				}
+			},function (res){
+				console.log(res);
+				swal(res.msg,"","error");
+			});
+		});
+		$(".btn-pic").click(function(event) {
+			$("#header-pic").attr("src",header_url);
+			$("#upload-img").click(function(event) {
+				var data=new FormData($("#uploadForm")[0]);
+				form.post(share.base_url+"Home/User/uploadAvatar",data,function (res){
+					console.log(res);
+					$.cookie("user_faceurl",res.response,{
+						path:"/"
+					});
+					swal({
+		                title: "提交成功!",
+		                text: "",
+		                type: "success",
+		                closeOnConfirm: false
+		            },function (){
+		            	window.location.href="addFriend.html";
+		            });
+				},function (res){
+					$(".warming").html(res.response);
+				});
+			});
+			
+			
+		});
+		$("body").on("click",".btn-add",function (){
+			var data={
+				"friend_id":$(".friend_id").val(),
+				"user_nickname":$.cookie("user_nickname"),
+				"applay_content":$(".applay_content").val()
+			};
+			console.log(data);
+			share.post(share.base_url+"Home/Friend/sendFriendRequest",data,function (data){
+				console.log(data);
+				swal(data.response,"","success");
+			},function (res){
+				console.log(res);
+			});
+		});
+	});
+</script>
+</html>

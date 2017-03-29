@@ -1,0 +1,147 @@
+body,h3,h4{margin:0;padding:0;}
+body{
+	position: relative;
+	padding-bottom: 140px;
+}
+#container{
+	width:100%;
+	position:relative;
+	height:800px;
+}
+#bg{
+	width:100%;
+	height:100%;
+	background:url(../img/bgs/7.jpg);
+	background-size: cover;
+}
+#container .bgchange{
+	width:30px;
+	height:30px;
+	position:absolute;
+	top:250px;
+	cursor:pointer;
+	display: block;
+}
+#container .pre{
+	background:url(../img/icon_control.png);
+	left:30px;
+}
+@media only screen and (max-width:800px){
+	#container .bgchange{
+		display: none;
+	}
+}
+#container .pre:hover{
+	background-position:0px -30px;
+}
+#container .next{
+	background:url(../img/icon_control.png) -30px 0px;
+	right:30px;
+}
+#container .next:hover{
+	background-position:-30px -30px;
+}
+.register-form{
+	width:46%;
+	height:580px;
+	margin-left:44%;
+	background: white;
+	border-radius:20px;
+	position:absolute;
+	top:50px;
+}
+@media only screen and (max-width:800px){
+	.register-form{
+		width:80%;
+		margin-left:10%;
+	}
+}
+.title-header{
+	height:70px;
+	line-height:70px;
+}
+.title-header h3{
+	font-size:30px;
+	text-align: center;
+}
+.back-login{
+	text-align:right;
+	padding-right:50px;
+	font-size:20px;
+}
+.back-login a{
+	color:#FFA800;
+	text-decoration:none;
+}
+.back-login a:hover{
+	color:green;
+}
+.form-info{
+	width:100%;
+	height:80px;
+	font-size:20px;
+	padding-left:10%;
+	margin-top:10px;
+}
+.form-info span.require-cont{
+	display:block;
+}
+.form-info span.user-info{
+	font-size:10px;
+	display:block;
+	padding-top: 8px;
+}
+.form-info input{
+	width:78%;
+	height:34px;
+	background:#FCFCFC;
+	border-radius: 5px;
+	outline:none;
+	border-width:1px;
+	font-size:15px;
+	margin:auto;
+	padding-left:2%;
+}
+#user_confirmCode{
+	width:40%;
+}
+input.btn_code{
+	width:24%;
+	height:36px;
+	background:#39B3D7;
+	display: inline-block;
+	margin-left:10%;
+	color:#fff;
+	line-height:34px;
+	text-align: center;
+	border-radius:4px;
+	cursor: pointer;
+}
+.form-info input:focus{
+	border-color:#F8D386;
+}
+#submit{
+	width:50%;
+	height:40px;
+	background:#5CB85C;
+	color:white;
+	font-size:20px;
+	cursor: pointer;
+	display: block;
+	margin:30px auto;
+}
+#submit:hover{
+	background: #21B416;
+}
+#footer{
+	position: absolute;
+	bottom:0px;
+	padding-top:40px;
+	width:100%;
+}
+@media only screen and (max-width:410px){
+	input.btn_code{
+		width:32%;
+		margin-left:3%;
+	}
+}

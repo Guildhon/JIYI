@@ -1,0 +1,154 @@
+body,ul,li,a,h3{padding:0;margin:0;list-style:none;text-decoration:none;}
+body{
+	background: #EFEFEF;
+}
+a:focus{
+	text-decoration: none;
+}
+.clearfix:before,
+.clearfix:after{
+	content:"";
+	display:table;
+}
+.clearfix:after{
+	clear:both;
+}
+#container{
+	width: 80%;
+	margin: 0px auto;
+	position: relative;
+	padding-bottom: 32px;
+}
+.my-info{
+	width:40%;			
+	float:left;
+}
+.my-info .user-info{
+	margin-top:20px;
+}
+.my-info .user-info ul{
+	padding-left:20px;
+}
+.my-info .user-info li{
+	font-size:25px;
+}
+.my-info .user-info li{
+	margin-top:40px;
+}
+
+.my-timeaxis{
+	width:60%;
+	float:left;
+}
+.my-timeaxis h3{
+	text-indent: 3em;
+}
+.my-timeaxis .timeaxis{
+	width:74%;
+	margin-left: 11%;
+	min-height:500px;
+	margin-top:20px;
+	background:#FFF;
+	border-radius:6px;
+	border: 1px solid #ccc;
+	overflow:hidden;
+	position: relative;
+	float:left;
+}
+@media only screen and (max-width:410px){
+	.my-info{
+		width:100%;
+	}
+	.my-timeaxis{
+		width:100%;
+		margin-top:60px;
+	}
+	.my-timeaxis .timeaxis .see-time{
+		display: none;
+	}
+	.my-timeaxis .timeaxis{
+		width:100%;
+		margin-left:0%;
+	}
+}
+.my-timeaxis .timeaxis ul{
+	float:left;
+	padding:20px;
+	overflow:visible;
+}
+.my-timeaxis .timeaxis li{
+	font-size:22px;
+	line-height:50px;
+}
+.timeaxis li span.create-time{
+	color:red;
+}
+.my-timeaxis .timeaxis li a:first-child{
+	font-size: 1.2em;
+	font-family: "微软雅黑";
+	padding-left:40px;
+	background: url(../img/newlogo.png) no-repeat left center;
+	padding-right: 20px;
+	display: inline-block;
+}
+.timeaxis li a:first-child:hover{
+	color: #16A085;
+	text-decoration: none;
+}
+.timeaxis li a:first-child:focus{
+	color: #16A085;
+	text-decoration: none;
+
+}
+.my-timeaxis .timeaxis .time-cover{
+	margin-left: 15%;
+	margin-bottom: 30px;
+}
+.time-footer{
+	width:80%;
+	line-height:30px;
+	margin:30px auto;
+	font-size: 20px;
+	text-align: right
+}
+.time-footer a:hover{
+	color:red;
+}
+.my-timeaxis .timeaxis .see-time{
+	position: absolute;
+	bottom: 30px;
+	left:60px;
+}
+.my-timeaxis .timeaxis .see-time a{
+	color:#428BCA;
+}
+.my-timeaxis .choose-page{
+	text-align: center;
+	margin:20px auto;
+}
+.choose-page li {
+	margin-top:10px;
+}
+.my-timeaxis .choose-page a{
+	color:#3B3B3B;
+}
+.my-timeaxis .choose-page a:hover{
+	text-decoration: none;
+	color:#C0D4D3;
+}
+.my-timeaxis .choose-page .active{
+	float:left;
+	margin-left: 10px;
+	color: #fff;
+	background-color: #FFEBCD;
+	height:40px;
+	line-height: 40px;
+	font-size:20px;
+	width:80px;
+}
+.my-timeaxis .choose-page .pre{
+	border-radius: 10px 0 0 10px;
+}
+.my-timeaxis .choose-page .next{
+	border-radius: 0 10px 10px 0;
+}

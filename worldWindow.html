@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>世界之窗界面</title>
+	<meta name="viewport" content="width=device-width,initial-scale=1">
+	<meta http-equiv="x-ua-compatible" content="IE=edge,Chrome=1" />
+	<meta name="renderer" content="webkit">
+	<link rel="stylesheet" href="./css/bootstrap.min.css">  
+	<link rel="shortcut icon" href="img/tnlogo.png" type="image/x-icon"/>
+	<link rel="stylesheet" href="css/userinfo.css">
+	<link rel="stylesheet" type="text/css" href="css/sweet-alert.css">
+	<link rel="stylesheet" href="./css/indexHeader.css">
+	<script src="./js/jquery-1.12.3.js"></script>
+	<script src="./js/sharesrc.js"></script>
+	<script src="js/sweet-alert.min.js"></script>
+	<script src="js/sweet-alert.js"></script>
+	<script src="./js/bootstrap.min.js"></script>
+	<script src="./js/handlebars.min.js"></script>
+	<style>
+		.timeaxis{
+			width:90%;
+			border:1px solid #ccc;
+			padding:0px 10px 10px; 
+			border-radius:3px;
+		}
+		.time-pic{
+			padding: 10px;
+			border-radius:8%;
+			width:54%;
+			display: inline-block;
+			margin-left:2%;
+			vertical-align: bottom;
+			margin-right:20%;
+		}
+		.title-title{
+			padding: 0px;
+			margin:0px;
+		}
+	</style>
+</head>
+<body>
+	<div id="header" class="clearfix"></div>
+	<div id="container" >
+		<div class="row">
+			<div class="col-sm-4">
+				<img src="img/tnlogo.png" alt="" class="header-pic">
+				<h3 class="nickname">昵称</h3>
+				<p class="nickname"><strong id="nickname"></strong></p>
+				<button class="btn btn-success btn-pic" data-toggle="modal" data-target="#updateheadimg">修改头像</button>
+			</div>
+			<div class="col-sm-8">
+				<div class="otherLine">
+					<h3 class="text-danger find-tit">别人的时间轴</h3>
+					<div class="timeaxis ">
+						<h3 class="text-info time-title"><a href="#">这是标题</a></h3>
+						<ul>
+							<li>创建时间:<span class="text-warning">2012-2-2</span></li>
+							<li>文字简介:<span>旅游不在乎终点，而是在意途中的人和事还有那些美好的记忆和景色。旅行是一种病，当你把身边的人都传染了，而你自己根本不想从中跑出来。一个人旅行，不理会繁杂的琐事，自由自在地，去体验一个城</span></li>
+							<li>
+								<img src="img/tnlogo.png" alt="" class="time-pic">
+								<button class="btn btn-info">评论</button>
+								<button class="btn btn-info">屏蔽</button>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	  <div class="modal fade" id="updateheadimg" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+	<div class="modal-dialog" role="document">
+	  <div class="modal-content">
+	    <div class="modal-header">
+	      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	      <h4 class="modal-title" id="myModalLabel">上传修改头像</h4>
+	    </div>
+	    <div class="modal-body">
+	      <form name="uploadForm" id="uploadForm" method="post" enctype="multipart/form-data">
+	        <img src="" id="header-pic">
+	        <input type="file" id="file-upload" class="btn" name="file-load" />
+	        <span class="warming"></span>
+	      </form>
+	    </div>
+	    <div class="modal-footer">
+	      <button type="button" class="btn btn-default" data-dismiss="modal">退出</button>
+	      <button type="button" class="btn btn-primary" id="upload-img">上传/修改</button>
+	    </div>
+	  </div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+	</div><!-- /.modal -->
+	<div id="footer" class="clearfix"></div>
+</body>
+<script src="./js/jquery.cookie.min.js"></script>
+<script id="require-list" type="text/x-handlebars-template">
+	{{#each response}}
+	
+	{{/each}}
+</script>
+<script type="text/javascript">
+	$(function (){
+		var header_url;
+		$("#header").load("indexHeader.html");
+		$("#footer").load("footer.html");
+		$("#nickname").html($.cookie("user_nickname"));
+		if($.cookie("user_faceurl")!=="null"){
+			$(".header-pic").attr("src",share.base_url+$.cookie("user_faceurl"));
+			header_url=share.base_url+$.cookie("user_faceurl");
+		}else{
+			header_url="img/tnlogo.png";
+		}
+		$(".btn-pic").click(function(event) {
+			$("#header-pic").attr("src",header_url);
+			$("#upload-img").click(function(event) {
+				var data=new FormData($("#uploadForm")[0]);
+				form.post(share.base_url+"Home/User/uploadAvatar",data,function (res){
+					console.log(res);
+					$.cookie("user_faceurl",res.response,{
+						path:"/"
+					});
+					swal({
+		                title: "提交成功!",
+		                text: "",
+		                type: "success",
+		                closeOnConfirm: false
+		            },function (){
+		            	window.location.href="worldWindow.html";
+		            });
+				},function (res){
+					$(".warming").html(res.response);
+				});
+			});
+		});
+		share.post(share.base_url+"Home/TimeLineShare/showTimeLineShareList",null,function (res){
+			console.log(res);
+		},function (res){
+			console.log(res);
+		});
+	});
+</script>
+</html>

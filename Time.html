@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>迹忆--时光轴</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta http-equiv="x-ua-compatible" content="IE=edge,Chrome=1" />
+    <meta name="renderer" content="webkit">
+    <script src="./js/jquery-1.12.3.js"></script>
+    <script src="./js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="./css/bootstrap.min.css">  
+    <script src="./js/sharesrc.js"></script> 
+    <link rel="shortcut icon" href="img/tnlogo.png">
+    <link rel="stylesheet" href="css/Time.css">
+    <link rel="stylesheet" media="screen" href="./css/bootstrap-datetimepicker.min.css">  
+    <script src="./js/bootstrap-datetimepicker.js" charset="UTF-8"></script>
+    <script src="./js/bootstrap-datetimepicker.fr.js" charset="UTF-8"></script>
+</head>
+<body style="background: #EAEBED;">
+<div id="header">
+
+</div>
+<!-- 模版定义 -->
+<div class="hide">
+    <div id="tpl_scrubber_year">
+        <a href="javascript:;" onclick="showYear({year},this)" class="s_year" id="scrubber_year_{year}">{year}
+            {list}
+        </a>
+    </div>
+
+    <div id="tpl_scrubber_month" >
+           <a href="javascript:;" class="s_month {year}_month" onclick="showMonth({year},{month},this)" id="scrubber_month_{year}{month}" >{month}月</a>
+    </div>
+
+    <div id="tpl_content_year">
+
+        <div class="c_year" id="content_year_{year}">{year}</div>
+        {list}
+
+    </div>
+
+    <div id="tpl_content_month">
+
+        <div class="c_item c_item_left content_date_{year}{month} {isFirst}">
+
+            <div class="c_i_icon_arrow"></div>
+            <div class="c_i_icon_dot"><div class="c_i_icon_dot_child"></div></div>
+
+            <div class="c_i_head">
+
+                <div class="c_i_head_title">
+                    {date}
+                    <button class="btn btn-primary col-sm-offset-4" id="discuss" data-toggle="modal" data-target="#comments">查看评论</button>
+                </div>
+
+                <div class="c_i_head_intro">
+                    <i class="ui_ico quote_before"></i>
+                    {intro}
+                    <i class="ui_ico quote_after"></i>
+                </div>
+            </div>
+            <div class="c_i_media">
+                {media}
+            </div>
+            <div class="c_i_footer">
+                <div class="c_i_footer_info">
+                        <!-- <a href="javascript:void(0)" class="op_zan" title="赞">
+                            <i class="ui_ico ico_zan">赞</i>({comment})</a>
+                        <a href="javascript:void(0)" class="op_pin" title="评论">
+                            <i class="ui_ico ico_com">评论</i>({speak})</a> -->
+                            地址:<strong>{address}</strong>
+                            <div class="toolbar">
+                                <a href="javascript:;" class="tool delete" id="{content_id}"><button class="btn btn-info">删除</button></a>
+                                
+                                <a href="javascript:;" class="tool upload" id="{content_id}"><button class="btn btn-info">更新</button></a>
+                            </div>
+                </div>
+            </div>
+            <div class="discussarea">
+            <div class="discusses">
+                <div class="level-one">
+                    <h3 class="ib">user_nickname</h3>:<span>这是第一条评论</span>
+                    <button>展开一下评论</button>
+                </div>
+                <div class="level-two">
+                    <ul></ul>
+                </div>
+            </div>
+        </div>
+        </div>
+        
+
+    </div>
+
+</div>
+<!--  网页内容 -->
+    <style type="text/css">
+        .createLineContent{
+            width:80%;
+        }
+        .btn-group{
+            margin-left:80%;
+        }
+        .modal-dialog{
+           top:100px;
+        }
+    </style>
+    <button type="button" class="btn btn-success btn-group creatething" data-toggle="modal" data-target="#publishModal" id="modalbtn">创建记录</button>
+
+    <div class="container all-info">
+
+
+        <div class="scrubber" id="scrubber"> <!-- 时序列表 -->
+
+        </div>
+
+
+        <div class="content" id="content"> <!-- 内容 -->
+
+        </div>
+    </div>
+    <div id="footer"></div>
+    <div class="modal fade" id="publishModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">发布时间轴事件</h4>
+                  </div>
+                  <div class="modal-body">
+                    <form class="form-horizontal" id="publishform" enctype="multipart/form-data">
+                        <div class="form-group">
+                        <label for="address" class="col-sm-2 control-label">地点：</label>
+                        <div class="col-sm-10">
+                          <input type="text" class="form-control" name="content_caddress" id="address" placeholder="请输入地点">
+                        </div>
+                        </div>
+
+                          <div class="form-group">
+                              <input type="hidden" name="timeline_id" value="" id="timeline_id"> 
+                          </div>
+
+                            
+                         <div class="form-group">
+                            <label for="content_ctime" class="col-sm-2 control-label">记录时间：</label>
+                            <div class="col-sm-10">
+                                <div class="input-append date" id="datetimepicker" data-date-format="dd-mm-yyyy">
+                                <input name="content_ctime" class="form-control" size="16" type="text" placeholder="请输入时间" id="content_ctime">
+                                <span class="add-on"><i class="icon-remove"></i></span>
+                                <span class="add-on"><i class="icon-th"></i></span>
+                                </div>
+                            </div>
+                          </div>
+
+
+                          <div class="form-group">
+                            <label for="content_text" class="col-sm-2 control-label">填写内容：</label>
+                            <div class="col-sm-10">
+                              <textarea  class="form-control" rows="6" id="content_text" name="content_text"></textarea>
+                            </div>
+                          </div>
+
+                           <div class="form-group">
+                            <label for="sbjlevel" class="col-sm-2 control-label">是否上传图片：</label>
+                            <div class="col-sm-10">
+                              <select class="form-control" id="sbjlevel" name="existpic">
+                                <option value="1">上传请点击下面按钮</option>
+                                <option value="2">不上传勿点击按钮</option>
+                              </select>
+                            </div>
+                          </div>
+                            
+                          <div class="form-group">
+                              <div class="col-sm-6 col-sm-offset-2">
+                               
+                                    上传图片
+                                    <input type="file" name="file[]" multiple />
+                                    <span style="color:red">网速不佳时请勿上传过大图片</span>
+                            </div>
+                          </div>
+
+                          <p id="publishstatus"></p>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                            <button type="button" class="btn btn-primary" id="studentpublish">发布</button>
+                          </div>
+                        </form>
+                  </div>
+                  
+                </div><!-- /.modal-content -->
+              </div><!-- /.modal-dialog -->
+    </div>
+    <div class="modal fade" id="comments" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">请输入评论</h4>
+              </div>
+              <div class="modal-body">
+                <form class="form-horizontal" id="" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <textarea name="" id="" cols="20" rows="10" class="form-control" style="width:80%;margin:auto"></textarea>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                        <button type="button" class="btn btn-primary" id="discuss-sub">发布</button>
+                      </div>
+                </form>
+              </div>
+              
+            </div>
+          </div>
+     </div>
+
+    <script type="text/javascript" src="js/data.js"></script>
+    <script type="text/javascript" src="js/fx.js"></script>
+    <script type="text/javascript" src="js/GetLunarDay.js"></script>
+
+    <script type="text/javascript">
+
+
+    </script>
+
+</body>
+</html>
+<script>
+    $(function (){
+        $("#header").load("indexHeader.html");
+        $("#footer").load("footer.html");
+
+    });
+
+</script>
+<style type="text/css">
+html{
+    
+}
+body{margin: 0px;padding: 0;}
+.container{width: 960px;min-width:960px;margin: 0px auto;position: relative;}
+.hide{display: none;}
+.clear{clear: both;height: 40px}
+@media only screen and (max-width:410px){
+    .container{
+        width:90%;
+        min-width:90%;
+    }
+}           
+
+.scrubber {position: absolute;top: 29px;left: 0px;width: 47px;z-index: 999}
+.scrubber a{
+    height: 26px;line-height: 26px;
+    padding-right: 5px;font-size: 14px;
+    color: #000;text-decoration: none; display: block;
+    border-right:2px solid #c8c8c8;
+    border-right-color: rgba(200,200,200,.5);
+    text-shadow: 0 1px 1px rgba(0,0,0,.3);
+    text-align: right;
+}
+.scrubber a:hover,
+.scrubber a.cur{border-right-color: #7ebad0;color: #7ebad0;font-weight: bold;}
+.scrubber a:hover{text-decoration: underline;}
+.scrubber a.cur:hover{text-decoration: none;}
+
+.spine{display: block;width: 3px;height: 100%;background: #eee;}
+
+#scrubber  .s_month{display: none;}
+@media only screen and (max-width:410px){
+    .scrubber{display:none;}
+}       
+
+.content{min-height:1000px;padding-left: 160px;padding-top:50px;background:url(img/images/spine.png) repeat-y  121px 0;position: relative;}
+@media only screen and (max-width:410px){
+    .content{
+        left:-80px;
+    }
+}       
+.c_year{
+    height:30px;line-height: 30px;
+    color: #000;text-shadow: 0 1px 1px rgba(0,0,0,.3);font-weight: bold;font-size: 18px;
+    position: relative;left:-90px;
+    clear: both;
+}
+.c_item{width:70%;background: #fff;height: auto;margin: 20px 0px 0 0;position: relative;border-radius: 4px;color: #888;}
+@media only screen and (max-width:410px){
+    .c_item{
+        width:150%;
+    }
+}      
+.c_item_left{float: left;}
+.c_item_first{margin-top: -20px;}
+.c_item_right{float: left;}
+.c_item_right .c_i_icon_dot{left: -443px;}
+
+.c_i_icon_arrow{
+    position: absolute;
+    height: 0px;
+    border-color: transparent #e2e2e2 transparent transparent;
+    border-width: 10px 10px 10px 0;
+    border-style: dashed solid dashed dashed;
+    border-right-color: #fff;
+    left: -10px;top: 20px;
+}
+.c_i_icon_dot{
+    width: 11px;
+    height: 11px;
+    border-radius: 11px;
+    position: absolute;
+    left: -43px;top: 25px;   
+    background: #fff;
+}
+.c_i_icon_dot_child{
+    width: 7px;
+    height: 7px;
+    border-radius: 7px;
+    position: absolute;
+    left: 2px;top: 2px;   
+    background: #b3dae9;
+}
+
+.c_i_head{padding: 15px 15px 0px 15px;}
+
+.c_i_head_title{height: 46px;line-height: 46px;font-size: 36px;padding: 0px 0px 10px 56px;position: relative;}
+ @media only screen and (max-width:410px){
+    .c_i_head{
+        padding-left: 4px;
+    }
+    .c_i_head_title{
+        font-size:16px;
+        
+    }
+}       
+.c_i_head_intro{
+    margin-bottom: 10px;
+    font-size: 18px;
+    line-height: 22px;
+    padding: 0 15px;
+}
+.c_i_head_title_icon{
+    width: 46px;height: 46px;background-color: #b3dae9;border-radius: 8px;position: absolute;left: 0px;top: 0px;
+    overflow: hidden;
+    color:#fff;
+    font-size: 27px;
+    line-height: 23px;
+}
+.c_i_media{padding-bottom: 10px;overflow: hidden;margin-left:10%;}
+.c_i_footer{margin: 0px 15px;border-top: 1px solid #d6d6d6;font-size: 12px;color: #b2b2b2;}
+
+.c_i_footer_info{
+    margin-top:40px;
+    font-size:20px;
+}
+.c_i_footer_info strong{
+    display: inline-block;
+    padding-bottom: 20px;
+    color:red;
+    padding-left: 10px;
+}
+.c_i_footer_info .ui_ico{
+    width: 20px;
+    height: 20px;
+    vertical-align: middle;
+    visibility: visible;
+}
+.c_i_footer_like{line-height: 20px;padding-top: 5px;}
+
+.c_i_footer a{color: #b2b2b2;text-decoration: none;padding-right: 10px;display: inline-block;height: 20px;}
+.c_i_footer a:hover{color: #6EB8D3;text-decoration: underline;}
+
+.ui_ico, .ui_icon {
+    width: 15px;
+    height: 15px;
+    display: inline-block;
+    background-repeat: no-repeat;
+    font-size: 0;
+    overflow: hidden;
+}
+.quote_after {
+    vertical-align: bottom;
+    background-image: url(img/images/timeline.png);
+    background-position: -986px -102px;
+    margin-left: 5px;
+}
+.quote_before{
+    vertical-align: top;
+    background-image: url(img/images/timeline.png);
+    background-position: -986px -85px;
+    margin-right: 5px;
+}
+.ico_zan {
+    background-image: url(img/images/timeline.png);
+    background-position: -883px -21px;
+}
+.ico_com {
+    background-image: url(img/images/timeline.png);
+    background-position: -897px -42px;
+}
+.btn-pic{
+    display:inline-block;
+    width:100px; 
+    height:40px; 
+    position:relative; 
+    overflow:hidden;
+    background:#fff;
+    border:1px solid #ccc;
+    font-size:16px;
+    line-height:40px;
+    text-align: center;
+    color:#000;
+    border-radius:4px;
+    margin: auto;
+    margin-top:20px;
+
+}
+.warming{
+    color:red;
+    font-size:16px;
+}
+.toolbar{
+    float:right;
+}
+a.tool{
+    display:inline-block;
+    color:#790;
+    margin-right: 20px;
+}
+@media only screen and (max-width:410px){
+    .creatething{
+        margin-left: 140px;
+    }
+    #discuss{
+        margin-top:-30px;
+        margin-right:-100px;
+        font-size: 10px;
+    }
+    .toolbar{
+        padding-bottom: 20px;
+    }
+}
+</style>
+<script type="text/javascript">
+    $(function(){
+        var nowTemp = new Date();
+        var now = new Date(nowTemp.getFullYear(), nowTemp.getMonth(),
+                nowTemp.getDate(), 0, 0, 0, 0);
+        $('.date').datetimepicker({
+            format:"yyyy-mm-dd hh:ii:ss",
+            weekStart: 1,
+            todayBtn:  1,
+            autoclose: 1,
+            todayHighlight: 1,
+            startView: 2,
+            forceParse: 0,
+            minView: "hour",
+            showMeridian: 1
+
+        });
+    });
+</script>
+

@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>迹忆--会员注册</title>
+	<meta name="viewport" content="width=device-width,initial-scale=1">
+	<meta http-equiv="x-ua-compatible" content="IE=edge" />
+	<meta name="renderer" content="webkit">
+	<link rel="shortcut icon" href="img/tnlogo.png">
+	<link rel="stylesheet" type="text/css" href="css/sweet-alert.css">
+	<link rel="stylesheet" type="text/css" href="css/register.css">
+	<script src="./js/jquery-1.12.3.js"></script>
+	<script src="js/sweet-alert.js"></script>
+	<script src="./js/sharesrc.js"></script>	
+</head>
+<body bgcolor="#F0F5FB">
+	<div id="container">
+		<div id="bg"></div>
+		<a class="pre bgchange" id="pre"></a>
+		<a class="next bgchange" id="next"></a>
+		<div class="register-form">
+			<div class="title-header">
+				<h3>新会员注册</h3>
+			</div>
+			<div class="back-login">
+				<h4><a href="login.html">前往登陆</a></h4>
+			</div>
+			<div>
+				<div class="form-info">
+					<span class="require-cont">填写电话号码</span>	
+					<input type="text" name="user_phone" id="user_phone" placeholder="电话号码">
+					<span class="user-info"></span>
+				</div>
+				<div class="form-info">
+					<span class="require-cont">手机验证码</span>	
+					<input type="text" name="user_confirmCode" id="user_confirmCode" placeholder="验证码">
+					<!-- <a href="javascript:void(0);" class="btn_code" disabled ="true">发送验证码</a> -->
+					<input type="button" class="btn_code" value="发送验证码" />
+					<span class="user-info"></span>
+				</div>
+				<div class="form-info">
+					<span class="require-cont">填写密码</span>	
+					<input type="password" name="userpwd" id="userpwd" placeholder="输入密码">
+					<span class="user-info"></span>
+				</div>
+				<div class="form-info">
+					<span class="require-cont">确认密码</span>	
+					<input type="password" name="confirmpwd" id="confirmpwd" placeholder="确认密码">
+					<span class="user-info"></span>
+				</div>
+				<button id="submit">提交</button>
+			</div>
+		</div>
+	</div>
+	<div id="footer"></div>
+</body>
+</html>
+<script src="js/sharesrc.js"></script>
+<script type="text/javascript">
+	$(function (){
+		$("#footer").load('footer.html');
+		$(".btn_code").on("mouseover",function(){
+			$(this).css("background","#4285F4");
+		});
+		$(".btn_code").on("mouseout",function(){
+			$(this).css("background","#39B3D7");
+		});
+		$(".btn_code").click(function (){
+			if($("#user_phone").val()===""){
+				alert("电话号码不能为空");
+				return;
+			}
+			if(!(/^1[34578]\d{9}$/.test($("#user_phone").val()))){
+				alert("电话号码填写错误");
+				return;
+			}
+			data={
+				"user_phone":$("#user_phone").val()
+			};
+			var time = 60;
+			$(this).val(time+"秒后再次发送");
+			$(this).attr("disabled",true);
+			$(this).css({"background":"#ccc","cursor":"not-allowed"});
+			var settime = setInterval(function (){
+				time--;
+				$('.btn_code').val(time+"秒后再次发送");
+				if(time<=0){
+					clearInterval(settime);
+					$('.btn_code').attr("disabled",false);
+					$('.btn_code').css({"background":"#4285F4","cursor":"pointer"});
+					$('.btn_code').val("发送验证码");
+				}
+				
+			},1000);
+			share.post('http://119.29.251.126/JIYI/Home/User/sendMsg',data,function (res){
+				swal({
+                title: res.response,
+                text: "",
+                type: "success",
+                closeOnConfirm: false
+            });
+				
+			},function (res){
+			   	alert("发生错误了：" + res.msg);  
+			});
+			
+
+		});
+		var flag=true;
+		$("#submit").click(function (){
+			if(!$("#user_phone").val()||!$("#user_confirmCode").val()||!$("#userpwd").val()||!$("#confirmpwd").val()||!flag){
+				alert("信息填写不全或有错");
+				return;
+			}
+			var data={};//获取表单信息
+			data.user_phone=$("#user_phone").val();
+			data.user_confirmCode=$("#user_confirmCode").val();
+			data.user_password=$("#userpwd").val();
+			data.rePassword=$("#confirmpwd").val();
+			var confirmpwd=$("#confirmpwd").val();
+			if(confirmpwd!=data.user_password){
+				alert('两次密码不一致');
+				return false;
+			}
+			console.log(data);
+			share.post('http://119.29.251.126/JIYI//Home/User/userRegister',data,function (res){
+				console.log(data);
+				swal({
+                title: "注册成功!",
+                text: "",
+                type: "success",
+                closeOnConfirm: false
+            },function (){
+            	window.location.href="login.html";
+            });
+				
+			},function (jqXHR){
+			   	alert("发生错误了：" + jqXHR.status);  
+			});
+
+		});
+
+
+		//表单简单校验	
+		$("#user_phone").on("focus",function (){
+			$('.user-info').eq(0).css({"display":'block','color':'black'});
+			$('.user-info').eq(0).html("电话号码不能多于11个字符");
+		});
+		$("#user_phone").on("blur",function (){
+			var re=/[^\w\u4e00-\u9fa5]/g;
+			$('.user-info').eq(0).css({"display":'block','color':'red'});
+			if(re.test($(this).val())){
+				$('.user-info').eq(0).html("含有非法字符");
+				flag=false;
+			}else if($(this).val()===""){
+				$('.user-info').eq(0).html("不能为空");
+				flag=false;
+			}
+			else if($(this).val().length>25){
+				$('.user-info').eq(0).html("不能多于25个字符");
+				flag=false;
+			}
+			else{
+				$('.user-info').eq(0).html("");
+				flag=true;
+			}
+		});
+		$("#user_confirmCode").on("focus",function (){
+			$('.user-info').eq(1).css({"display":'block','color':'black'});
+			$('.user-info').eq(1).html("请写验证码");
+		});
+		
+		$("#userpwd").on("focus",function (){
+			$('.user-info').eq(2).css({"display":'block','color':'black'});
+			$('.user-info').eq(2).html("请输入密码：6-16个字符");
+		});
+		$("#userpwd").on("blur",function (){
+			$('.user-info').eq(2).css({"display":'block','color':'red'});
+			if($(this).val()===""){
+				$('.user-info').eq(2).html("不能为空");
+				flag=false;
+			}else{
+				$('.user-info').eq(2).html("");
+				flag=true;
+			}
+		});
+
+
+
+		//背景切换
+		var nowIndex=7;
+		$("#pre").click(400,function (){
+			$("#bg").fadeOut(function (){
+				nowIndex--;
+				tabBg(400);
+			});
+		});
+		$("#next").click(400,function (){
+			$("#bg").fadeOut(function (){
+				nowIndex++;
+				tabBg(400);
+			});
+		});
+		function tabBg()
+		{
+			if(nowIndex==6){
+				nowIndex=11;
+			}
+			if(nowIndex==12){
+				nowIndex=7;
+			}
+			$("#bg").css("background-image","url(img/bgs/"+nowIndex+".jpg)");
+			$("#bg").fadeIn();
+		}
+	});
+</script>

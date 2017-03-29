@@ -1,0 +1,12 @@
+.discussarea{
+	width:30%;
+	height:300px;
+	background: red;
+	position: absolute;
+	top:20px;
+	display: none;
+	left:100%;
+}
+.ib{
+	display: inline-block;
+}
